@@ -1,5 +1,6 @@
 from djitellopy import tello
 from rich import print
+from time import sleep
 import cv2
 
 TELLO_IP = '192.168.10.1'
@@ -26,12 +27,34 @@ def stream_video_from_drone(my_tello):
         cv2.waitKey(1)
 
 
-def main():
-    me = tello.Tello()
-    me.connect()
-    print_battery_drone(me)
+def fly_drone(my_tello):
+    my_tello.takeoff()
 
-    stream_video_from_drone(me)
+
+def land_drone(my_tello):
+    my_tello.land()
+
+
+def main():
+    try:
+        print("[bold yellow]Connecting to TELLO...")
+        me = tello.Tello()
+        me.connect()
+        print_battery_drone(me)
+        # stream_video_from_drone(me)
+        fly_drone(me)
+        sleep(1) # Stay in the air for 1 second
+        print("[bold yellow]Prepare for landing...")
+        land_drone(me)
+    
+    except KeyboardInterrupt:
+        print("[bold red]Stopped.")
+        # if me.is_flying():
+            # land_drone(me)
+        exit()
+    except Exception:
+        print("[bold red]Error occurred.")
+        exit()
 
 
 if __name__ == '__main__':
