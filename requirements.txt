@@ -1,2 +1,3 @@
 djitellopy
 rich
+cv2
