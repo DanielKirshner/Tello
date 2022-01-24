@@ -1,8 +1,8 @@
 # DJI Tello Drone
 Just Playing around with the tello API for python
 
-## Install the python package
+## Install prerequisites
 
 ```
-pip install djitellopy
+pip install -r requirements.txt
 ```
