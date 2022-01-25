@@ -1,7 +1,9 @@
 from djitellopy import tello
 from rich import print
 from time import sleep
+import numpy as np
 import cv2
+
 
 TELLO_IP = '192.168.10.1'
 TELLO_PORT = '8889'
@@ -19,7 +21,6 @@ def print_battery_drone(my_tello):
 
 def stream_video_from_drone(my_tello):
     my_tello.streamon()
-
     while True:
         img = my_tello.get_frame_read().frame
         img = cv2.resize(img, (360, 240)) # There is a small delay so smaller resolution is better
@@ -33,6 +34,13 @@ def fly_drone(my_tello):
 
 def land_drone(my_tello):
     my_tello.land()
+
+
+def face_tracking():
+    CAMERA_INDEX = 0 # if you have multiple tellos/cameras you need to change it to 1,2,3, etc...
+    cap = cv2.VideoCapture(CAMERA_INDEX)
+    
+
 
 
 def main():
