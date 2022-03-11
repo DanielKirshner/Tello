@@ -1,16 +1,27 @@
+from wireless import Wireless
 from djitellopy import tello
 from rich import print
 from time import sleep
 import numpy
 import cv2
 
+#---------- Wifi Credentials ----------#
+WIFI_SSID = "Tello"
+WIFI_PASSWORD = "12345678"
+SAVE_PASSWORD = False
+#--------------------------------------#
 
-TELLO_IP = '192.168.10.1'
-TELLO_PORT = '8889'
+TELLO_IP = "192.168.10.1"
+TELLO_PORT = "8889"
 FB_RANGE = [6200, 6800]
 PID = [0.4, 0.4, 0]
 P_ERROR = 0
 
+
+def connect_to_tello_wifi(interface='Wi-Fi'):
+    wifi = Wireless(interface)
+    wifi.connect(WIFI_SSID, WIFI_PASSWORD, SAVE_PASSWORD)
+    
 
 def print_battery_drone(my_tello):
     bat = my_tello.get_battery()
@@ -90,7 +101,7 @@ def face_tracking_tello(my_tello):
     my_tello.streamon()
     fly_drone(my_tello)
     my_tello.send_rc_control(0, 0, 25, 0)
-    sleep(2.2)
+    sleep(1.1)
     flying = True
 
     while flying:
@@ -107,6 +118,7 @@ def face_tracking_tello(my_tello):
 def main():
     try:
         print("[bold yellow]Connecting to TELLO...")
+        connect_to_tello_wifi()
         me = tello.Tello()
         me.connect()
         print_battery_drone(me)
